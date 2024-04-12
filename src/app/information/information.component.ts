@@ -4,14 +4,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { InformationService } from './information.service';
 import { Observable } from 'rxjs';
 import { Weather } from '../models/weather/weather.model';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
+
 
 const API_URL = "http://4be9040e-6581-4b9e-9321-b9357adf4fa2.pub.instances.scw.cloud:3000"
 // const API_URL = "http://localhost:3000"
 const urlLastDataResource = API_URL + "/api/intellizon-front/getLatestData"
 const urlRangeDataResource = API_URL + "/api/intellizon-front/getDataRange"
 
-const headers = { 'Content-Type': 'application/json', 'Authorization': 'wLkOJUkQPfCoVEQCI78qo6oup408TjIRI4X1lvDvXLGlkQvkeY' };
+const headers = { 'Content-Type': 'application/json', 'Authorization': 'API_KEY' };
 
 @Component({
 	selector: 'information',
@@ -30,9 +31,10 @@ export class InformationComponent implements OnInit{
 	getLastInfos(): Observable<Weather> {
 		return this.http.get<Weather>(urlLastDataResource, { headers });
 	  }
-	getRangeInfo(): Observable<Weather> {
-		const params = { "start": "2024-01-01", "end": "2024-12-12" }
-		return this.http.get<Weather>(urlRangeDataResource, { headers, params});
+	getRangeInfo(): Observable<any> {
+		const params = new HttpParams().set('start', '2024-01-01').set('end', '2024-12-12');
+		// const params = { start: "2024-01-01", end: "2024-12-12" };
+		return this.http.get<any>(urlRangeDataResource, { headers, params});
 	}
 
 	ngOnInit() {
