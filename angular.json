@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "SmartHome": {
+    "IntelliZon": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -18,7 +18,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/smart-home",
+            "outputPath": "dist/intellizon",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -67,10 +67,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "SmartHome:build:production"
+              "buildTarget": "IntelliZon:build:production"
             },
             "development": {
-              "buildTarget": "SmartHome:build:development"
+              "buildTarget": "IntelliZon:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "SmartHome:build"
+            "buildTarget": "IntelliZon:build"
           }
         },
         "test": {
