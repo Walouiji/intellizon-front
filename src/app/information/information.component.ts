@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Weather } from '../models/weather/weather.model';
 import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 import { environment } from '../environment/environment';
+import { DatePipe } from '@angular/common';
 
 
 const API_URL = "http://4be9040e-6581-4b9e-9321-b9357adf4fa2.pub.instances.scw.cloud:3000"
@@ -18,11 +19,11 @@ const headers = { 'Content-Type': 'application/json', 'Authorization': environme
 @Component({
 	selector: 'information',
 	standalone: true,
-	imports: [MatCardModule, MatDividerModule, HttpClientModule],
+	imports: [MatCardModule, MatDividerModule, HttpClientModule, DatePipe],
 	templateUrl: './information.component.html',
 	styleUrl: './information.component.scss'
 })
-export class InformationComponent implements OnInit{
+export class InformationComponent implements OnInit {
 
 	lastData: any;
 	rangeDate: any;
@@ -31,23 +32,31 @@ export class InformationComponent implements OnInit{
 
 	getLastInfos(): Observable<Weather> {
 		return this.http.get<Weather>(urlLastDataResource, { headers });
-	  }
-	getRangeInfo(): Observable<any> {
-		const params = new HttpParams().set('start', '2024-01-01').set('end', '2024-12-12');
-		// const params = { start: "2024-01-01", end: "2024-12-12" };
-		return this.http.get<any>(urlRangeDataResource, { headers, params});
+	}
+
+	async getRangeInfo(start: string, end: string) {
+		let response = await fetch("http://4be9040e-6581-4b9e-9321-b9357adf4fa2.pub.instances.scw.cloud:3000/api/intellizon-front/getDataRange?start=" +start + "&end="+end, {
+			method: "GET",
+			headers: headers
+		});
+
+		let data = await response.text();
+		return JSON.parse(data);
+
 	}
 
 	ngOnInit() {
 		this.getLastInfos().subscribe(data => {
 			this.lastData = data;
 		});
-		this.getRangeInfo().subscribe(data => {
-			this.rangeDate = data;
-		});
 	}
 
 	onClick() {
-		console.log(this.rangeDate);
+		const start = new Date(2024, 0, 1);
+		const end = new Date(2024, 0, 30);
+		console.log(start.toDateString());
+		this.getRangeInfo(start.toDateString(), end.toDateString()).then((data: any) => {
+			console.log(data);
+		});
 	}
 }
