@@ -5,6 +5,7 @@ import { InformationService } from './information.service';
 import { Observable } from 'rxjs';
 import { Weather } from '../models/weather/weather.model';
 import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
+import { environment } from '../environment/environment';
 
 
 const API_URL = "http://4be9040e-6581-4b9e-9321-b9357adf4fa2.pub.instances.scw.cloud:3000"
@@ -12,7 +13,7 @@ const API_URL = "http://4be9040e-6581-4b9e-9321-b9357adf4fa2.pub.instances.scw.c
 const urlLastDataResource = API_URL + "/api/intellizon-front/getLatestData"
 const urlRangeDataResource = API_URL + "/api/intellizon-front/getDataRange"
 
-const headers = { 'Content-Type': 'application/json', 'Authorization': 'API_KEY' };
+const headers = { 'Content-Type': 'application/json', 'Authorization': environment.apiKey };
 
 @Component({
 	selector: 'information',
