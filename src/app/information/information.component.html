@@ -1,11 +1,11 @@
 <p>
-    <!-- Humidité: {{lastData.humidity.value}}
+    Humidité: {{lastData.humidity.value}}%
 </p>
 <p>
-    Température: {{lastData.temperature.value}} -->
+    Température: {{lastData.temperature.value}}°C
 </p>
 <p>
-    Date de capture
+    Date de capture: {{lastData.datetime | date:'dd-MM-yyyy'}}
 </p>
 
 <button (click)="onClick()">
