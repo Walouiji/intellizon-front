@@ -1,13 +1,8 @@
-<p>
-    Humidité: {{lastData.humidity.value}}%
-</p>
-<p>
-    Température: {{lastData.temperature.value}}°C
-</p>
-<p>
-    Date de capture: {{lastData.datetime | date:'dd-MM-yyyy'}}
-</p>
-
-<button (click)="onClick()">
-    clique pour la range
-</button>
+<mat-card>
+    <mat-card-header>
+        Sensor : XXX UUnit
+    </mat-card-header>
+    <mat-card-content>
+        <canvas id="daily_measure"></canvas>
+    </mat-card-content>
+</mat-card>

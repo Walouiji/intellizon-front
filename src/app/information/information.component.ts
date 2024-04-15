@@ -7,7 +7,8 @@ import { Weather } from '../models/weather/weather.model';
 import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 import { environment } from '../environment/environment';
 import { DatePipe } from '@angular/common';
-
+import {MatGridListModule} from '@angular/material/grid-list';
+import Chart from 'chart.js/auto';
 
 const API_URL = "http://4be9040e-6581-4b9e-9321-b9357adf4fa2.pub.instances.scw.cloud:3000"
 // const API_URL = "http://localhost:3000"
@@ -19,7 +20,7 @@ const headers = { 'Content-Type': 'application/json', 'Authorization': environme
 @Component({
 	selector: 'information',
 	standalone: true,
-	imports: [MatCardModule, MatDividerModule, HttpClientModule, DatePipe],
+	imports: [MatCardModule, MatDividerModule, HttpClientModule, DatePipe, MatGridListModule],
 	templateUrl: './information.component.html',
 	styleUrl: './information.component.scss'
 })
@@ -27,6 +28,8 @@ export class InformationComponent implements OnInit {
 
 	lastData: any;
 	rangeDate: any;
+
+	chart = document.getElementById('daily_measure') as HTMLCanvasElement;
 
 	constructor(protected http: HttpClient) { }
 
@@ -49,11 +52,29 @@ export class InformationComponent implements OnInit {
 		this.getLastInfos().subscribe(data => {
 			this.lastData = data;
 		});
+		new Chart(this.chart, {
+			data: {
+				labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+				datasets: [{
+					label: '# of Votes',
+					data: [12, 19, 3, 5, 2, 3],
+					borderWidth: 1,
+					type: 'bar' // Add the missing 'type' property with a valid chart type
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				}
+			}
+		});
 	}
 
 	onClick() {
-		const start = new Date(2024, 0, 1);
-		const end = new Date(2024, 0, 30);
+		const start = new Date(2024, 3, 10);
+		const end = new Date(2024, 3, 14);
 		console.log(start.toDateString());
 		this.getRangeInfo(start.toDateString(), end.toDateString()).then((data: any) => {
 			console.log(data);

@@ -13,4 +13,6 @@ import { InformationComponent } from '../information/information.component';
 })
 export class HomeComponent {
 
+  terminal_ids= [""]
+
 }
