@@ -8,9 +8,6 @@ import { API_BASE_URL } from '../../../environment/environment';
 import {MatIconModule} from '@angular/material/icon';
 import { ChartComponent } from '../chart/chart.component';
 
-const urlLastDataResource = API_BASE_URL + "/api/intellizon-front/getLatestData"
-const urlRangeDataResource = API_BASE_URL + "/api/intellizon-front/getDataRange"
-
 @Component({
 	selector: 'information',
 	standalone: true,
@@ -22,5 +19,4 @@ export class InformationComponent {
 
 	@Input() tempActuel!: number;
 	@Input() tempIdeal!: number;
-
 }
