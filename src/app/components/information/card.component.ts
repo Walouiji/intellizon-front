@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
@@ -9,14 +9,13 @@ import {MatIconModule} from '@angular/material/icon';
 import { ChartComponent } from '../chart/chart.component';
 
 @Component({
-	selector: 'information',
+	selector: 'card',
 	standalone: true,
 	imports: [MatCardModule, MatDividerModule, HttpClientModule, DatePipe, MatGridListModule, MatIconModule, ChartComponent],
-	templateUrl: './information.component.html',
-	styleUrl: './information.component.scss'
+	templateUrl: './card.component.html',
+	styleUrl: './card.component.scss'
 })
-export class InformationComponent {
-
+export class CardComponent {
 	@Input() tempActuel!: number;
 	@Input() tempIdeal!: number;
 }

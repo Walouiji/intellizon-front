@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/pages/home/home.component';
 import { ConfigComponent } from './components/pages/config/config.component';
-import { InformationComponent } from './components/information/information.component';
+import { CardComponent } from './components/information/card.component';
 import { ChartComponent } from './components/chart/chart.component';
 
 export const routes: Routes = [
@@ -14,8 +14,8 @@ export const routes: Routes = [
         'component': ConfigComponent
     },
     {
-        'path': 'info',
-        'component': InformationComponent
+        'path': 'card',
+        'component': CardComponent
     },
     {
         'path': 'chart',

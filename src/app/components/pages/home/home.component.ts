@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { SensorService } from '../../../services/sensor.service';
 import { SensorData } from '../../../models/sensor-data/sensor-data.interface';
 import { Chart } from 'chart.js/auto';
-import { InformationComponent } from '../../information/information.component';
+import { CardComponent } from '../../information/card.component';
 
 @Component({
   selector: 'home',
   standalone: true,
-  imports: [InformationComponent],
+  imports: [CardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
