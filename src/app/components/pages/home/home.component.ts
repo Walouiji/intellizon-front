@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+
 import { SensorService } from '../../../services/sensor.service';
 import { CardComponent } from '../../information/card.component';
 import { ChartComponent } from "../../chart/chart.component";
@@ -8,7 +12,7 @@ import { ChartComponent } from "../../chart/chart.component";
     standalone: true,
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
-    imports: [CardComponent, ChartComponent]
+    imports: [CardComponent, ChartComponent, MatFormFieldModule, MatSelectModule, FormsModule]
 })
 export class HomeComponent implements OnInit {
 
@@ -16,10 +20,18 @@ export class HomeComponent implements OnInit {
     public humidityData!: { time: Date; value: number; }[];
     public lightData!: { time: Date; value: number; }[];
 
+    deviceList: any;
+    selectedDevice!: any;
+
     constructor(private sensorService: SensorService) { }
 
     ngOnInit() {
-        this.getChartData('2cf7f1c04280041c', new Date('2024-04-16'), new Date('2024-04-17'));
+        // this.getChartData(this.selectedDevice.deviceName, new Date('2024-04-16'), new Date('2024-04-17'));
+
+        this.sensorService.getDevices().subscribe(data => {
+            this.deviceList = data;
+            console.log(this.deviceList);
+          });
     }
 
     /**
@@ -36,5 +48,11 @@ export class HomeComponent implements OnInit {
                 this.humidityData = sensorData.map(d => ({ time: d.datetime, value: parseFloat(d.humidity.value.toFixed(1)) }));
                 this.lightData = sensorData.map(d => ({ time: d.datetime, value: parseFloat(d.light.value.toFixed(1)) }));
             });
+    }
+
+    onSelect(device: any) {
+        console.log(device);
+        this.selectedDevice = device;
+        this.getChartData(this.selectedDevice.deviceName, new Date('2024-04-16'), new Date('2024-04-17'));
     }
 }
