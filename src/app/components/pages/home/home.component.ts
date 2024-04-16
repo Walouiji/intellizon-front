@@ -13,83 +13,29 @@ import { CardComponent } from '../../information/card.component';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private dataService: SensorService) { }
+    public temperatureData!: { time: Date; value: number; }[];
+    public humidityData!: { time: Date; value: number; }[];
+    public lightData!: { time: Date; value: number; }[];
 
-  ngOnInit() {
-    this.dataService.getData('2cf7f1c04280041c', '2024-04-13', '').subscribe(data => {
+    constructor(private sensorService: SensorService) { }
 
-      console.log(data);
-      this.createChart(data);
-    });
-  }
+    ngOnInit() {
+        this.getChartData('2cf7f1c04280041c', new Date('2024-04-16'), new Date('2024-04-17'));
+    }
 
-  movingAverage(data: number[], range: number): number[] {
-    return data.map((value, index, values) => {
-      const window = values.slice(Math.max(index - range, 0), Math.min(index + range + 1, values.length));
-      const sum = window.reduce((acc, val) => acc + val, 0);
-      return sum / window.length;
-    });
-  }
-  createChart(data: SensorData[]) {
-
-    const dates = data.map(data => new Date(data.datetime).toLocaleDateString('fr-FR'));
-    const temperatures = data.map(data => data.temperature.value);
-    const smoothedTemperatures = this.movingAverage(temperatures, 5);
-    const smoothedHumidity = this.movingAverage(data.map(data => data.humidity.value), 5);
-    const smoothedLight = this.movingAverage(data.map(data => data.light.value), 5);
-
-    new Chart('chart', {
-      type: 'line',
-      data: {
-        labels: dates,
-        datasets: [{
-          label: 'Température °C',
-          data: temperatures,
-          borderWidth: 1,
-          fill: true,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0
-        },
-        {
-          label: 'Température °C',
-          data: smoothedTemperatures,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.2,
-          pointRadius: 0,
-          fill: true,
-          backgroundColor: 'rgba(75, 192, 192, 0.5)'
-        },
-        {
-          label: 'Humidité %',
-          data: smoothedHumidity,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.2,
-          pointRadius: 0,
-          fill: true,
-          backgroundColor: 'rgba(75, 192, 192, 0.5)'
-        },
-        {
-          label: 'Luminosité',
-          data: smoothedLight,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.2,
-          pointRadius: 0,
-          fill: true,
-          backgroundColor: 'rgba(75, 192, 192, 0.5)'
-        }]
-      },
-      options: {
-        scales: {
-          x: {
-            ticks: {
-              maxTicksLimit: 10
-            }
-          },
-          y: {
-            beginAtZero: false
-          }
-        }
-      }
-    });
-  }
+    /**
+     * Requêter le serveur pour obtenir les données d'appareil pour être utilisées par les Charts
+     * @param deviceEui Identifiant de l'appareil
+     * @param dateStart Filtre sur la date de début
+     * @param dateStop Filtre sur la date de fin
+     */
+    getChartData(deviceEui: string, dateStart: Date, dateStop: Date) {
+        this.sensorService
+            .getData(deviceEui, dateStart.toISOString(), dateStop.toISOString())
+            .subscribe(sensorData => {
+                this.temperatureData = sensorData.map(d => ({ time: d.datetime, value: parseFloat(d.temperature.value.toFixed(1)) }));
+                this.humidityData = sensorData.map(d => ({ time: d.datetime, value: parseFloat(d.humidity.value.toFixed(1)) }));
+                this.lightData = sensorData.map(d => ({ time: d.datetime, value: parseFloat(d.light.value.toFixed(1)) }));
+            });
+    }
 }
