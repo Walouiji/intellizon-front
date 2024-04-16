@@ -1,34 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { SensorService } from '../../../services/sensor.service';
-import { InformationComponent } from '../../information/information.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
+import { CardComponent } from '../../information/card.component';
+import { ChartComponent } from "../../chart/chart.component";
 
 @Component({
-  selector: 'home',
-  standalone: true,
-  imports: [InformationComponent, MatFormFieldModule, MatSelectModule, FormsModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'home',
+    standalone: true,
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss',
+    imports: [CardComponent, ChartComponent]
 })
 export class HomeComponent implements OnInit {
 
-  deviceList: any;
-  selectedDevice: any;
+    public temperatureData!: { time: Date; value: number; }[];
+    public humidityData!: { time: Date; value: number; }[];
+    public lightData!: { time: Date; value: number; }[];
 
-  constructor(private dataService: SensorService) { }
+    constructor(private sensorService: SensorService) { }
 
-  ngOnInit() {
-    // this.dataService.getData('2cf7f1c04280041c', '2024-04-13', '').subscribe(data => {
+    ngOnInit() {
+        this.getChartData('2cf7f1c04280041c', new Date('2024-04-16'), new Date('2024-04-17'));
+    }
 
-      // console.log(data);
-      // this.createChart(data);
-    // });
-    this.dataService.getDevices().subscribe(data => {
-      this.deviceList = data;
-      console.log(this.deviceList);
-    });
-  }
-
+    /**
+     * Requêter le serveur pour obtenir les données d'appareil pour être utilisées par les Charts
+     * @param deviceEui Identifiant de l'appareil
+     * @param dateStart Filtre sur la date de début
+     * @param dateStop Filtre sur la date de fin
+     */
+    getChartData(deviceEui: string, dateStart: Date, dateStop: Date) {
+        this.sensorService
+            .getData(deviceEui, dateStart.toISOString(), dateStop.toISOString())
+            .subscribe(sensorData => {
+                this.temperatureData = sensorData.map(d => ({ time: d.datetime, value: parseFloat(d.temperature.value.toFixed(1)) }));
+                this.humidityData = sensorData.map(d => ({ time: d.datetime, value: parseFloat(d.humidity.value.toFixed(1)) }));
+                this.lightData = sensorData.map(d => ({ time: d.datetime, value: parseFloat(d.light.value.toFixed(1)) }));
+            });
+    }
 }
