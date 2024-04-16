@@ -1,9 +1,30 @@
-<body>
-	<div>
-		<information />
-	</div>
-	<h1>Chart</h1>
-	<div class="canvas-wrapper">
-		<canvas id="chart"></canvas>
-	</div>
-</body>
+<div>
+	@if (this.selectedDevice) {
+	<h2>
+		{{ selectedDevice.deviceName }} - {{ selectedDevice.deviceType }}
+	</h2>
+	} @else {
+	<h2>
+		
+	</h2>
+	}
+</div>
+<div>
+	<mat-form-field>
+		<mat-label>Sélectionner un terminal</mat-label>
+		<mat-select [(ngModel)]="selectedDevice">
+			@for (terminal of deviceList; track $index) {
+			<mat-option [value]="terminal">
+				{{ terminal.deviceName }}
+			</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+</div>
+<div>
+	@if (this.selectedDevice) {
+		<p>
+			Ici sera affiché les différentes card pour le terminal sélectionné
+		</p>
+	}
+</div>
