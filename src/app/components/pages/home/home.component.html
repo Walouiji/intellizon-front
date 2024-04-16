@@ -1,5 +1,30 @@
-<body>
-	<app-chart [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
+<div>
+	@if (this.selectedDevice) {
+	<h2>
+		{{ selectedDevice.deviceName }} - {{ selectedDevice.deviceType }}
+	</h2>
+	} @else {
+	<h2>
+		
+	</h2>
+	}
+</div>
+<div>
+	<mat-form-field>
+		<mat-label>Sélectionner un terminal</mat-label>
+		<mat-select [(ngModel)]="selectedDevice">
+			@for (terminal of deviceList; track $index) {
+			<mat-option [value]="terminal">
+				{{ terminal.deviceName }}
+			</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+</div>
+<div>
+	@if (this.selectedDevice) {
+		<app-chart [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
 	<app-chart [type]="'humidity'" [color]="'17, 196, 209'" [data]="humidityData" />
 	<app-chart [type]="'light'" [color]="'2, 222, 127'" [data]="lightData" />
-</body>
+	}
+</div>
