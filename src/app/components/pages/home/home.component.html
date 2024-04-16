@@ -1,9 +1,5 @@
 <body>
-	<div>
-		<information />
-	</div>
-	<h1>Chart</h1>
-	<div class="canvas-wrapper">
-		<canvas id="chart"></canvas>
-	</div>
+	<app-chart [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
+	<app-chart [type]="'humidity'" [color]="'17, 196, 209'" [data]="humidityData" />
+	<app-chart [type]="'light'" [color]="'2, 222, 127'" [data]="lightData" />
 </body>
