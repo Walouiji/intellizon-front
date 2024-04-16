@@ -17,4 +17,9 @@ import { ChartComponent } from '../chart/chart.component';
 export class CardComponent {
 	@Input() tempActuel!: number;
 	@Input() tempIdeal!: number;
+
+	//pour le graphique
+	@Input() type!: string;
+    @Input() color!: string; // Au format "rrr, ggg, bbb"
+    @Input() data!: { time: Date; value: number; }[];
 }
