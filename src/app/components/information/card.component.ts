@@ -1,10 +1,9 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { API_BASE_URL } from '../../../environment/environment';
 import {MatIconModule} from '@angular/material/icon';
 import { ChartComponent } from '../chart/chart.component';
 
