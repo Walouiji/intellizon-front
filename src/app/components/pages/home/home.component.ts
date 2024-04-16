@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { SensorService } from '../../../services/sensor.service';
-import { SensorData } from '../../../models/sensor-data/sensor-data.interface';
-import { Chart } from 'chart.js/auto';
 import { CardComponent } from '../../information/card.component';
+import { ChartComponent } from "../../chart/chart.component";
 
 @Component({
-  selector: 'home',
-  standalone: true,
-  imports: [CardComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'home',
+    standalone: true,
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss',
+    imports: [CardComponent, ChartComponent]
 })
 export class HomeComponent implements OnInit {
 

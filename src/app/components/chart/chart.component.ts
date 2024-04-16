@@ -1,6 +1,3 @@
-import { Component } from '@angular/core';
-import { SensorData } from '../../models/sensor-data/sensor-data.interface';
-import { SensorService } from '../../services/sensor.service';
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import 'chartjs-adapter-date-fns';
 import { Chart } from 'chart.js/auto';
