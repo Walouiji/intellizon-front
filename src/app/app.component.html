@@ -16,6 +16,7 @@
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="56"
+      [opened]="mobileQuery.matches ? false : true"
     >
       <mat-nav-list class="sidebar">
         <a mat-list-item routerLink="/" href="/"
