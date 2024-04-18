@@ -10,9 +10,9 @@
 			</mat-select>
 		</mat-form-field>
 
-		<mat-button-toggle-group [(ngModel)]="dateSelection" (valueChange)="onDateSelect(dateSelection)">
-			<mat-button-toggle value=1 style="width: 100px">24 h</mat-button-toggle>
-			<mat-button-toggle value=2 style="width: 100px">48 h</mat-button-toggle>
+		<mat-button-toggle-group [(ngModel)]="selectedDayCount" (change)="onDayCountChange(selectedDayCount)">
+			<mat-button-toggle value=1 style="width: 100px">1 j</mat-button-toggle>
+			<mat-button-toggle value=2 style="width: 100px">2 j</mat-button-toggle>
 			<mat-button-toggle value=7 style="width: 100px">7 j</mat-button-toggle>
 		</mat-button-toggle-group>
 	</div>
