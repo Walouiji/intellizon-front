@@ -19,6 +19,8 @@ export class ChartComponent implements AfterViewInit, OnChanges {
     @Input() color!: string; // Au format "rrr, ggg, bbb"
     @Input() data!: { time: Date; value: number; }[];
 
+    typeName = "";
+
     ngAfterViewInit(): void {
         this.createChart();
     }
@@ -26,6 +28,16 @@ export class ChartComponent implements AfterViewInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['data'] && changes['data'].currentValue && changes['data'].currentValue.length > 0) {
             this.updateChart();
+        }
+        if (changes['type']) {
+            switch (this.type) {
+                case 'temperature':
+                    this.typeName = 'Température'; break;
+                case 'humidity':
+                    this.typeName = 'Humidité'; break;
+                case 'light':
+                    this.typeName = 'Luminosité'; break;
+            }
         }
     }
 
@@ -36,7 +48,7 @@ export class ChartComponent implements AfterViewInit, OnChanges {
             type: 'line',
             data: {
                 datasets: [{
-                    label: 'My Dataset',
+                    label: this.typeName,
                     data: this.data,
                     borderColor: `rgba(${this.color}, 1)`,
                     backgroundColor: `rgba(${this.color}, 0.2)`,
@@ -45,6 +57,8 @@ export class ChartComponent implements AfterViewInit, OnChanges {
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     x: {
                         time: {
