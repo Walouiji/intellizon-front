@@ -84,8 +84,9 @@ export class HomeComponent implements OnInit {
         this.getChartData(this.selectedDevice.deviceEui, new Date('2024-04-16'), new Date('2024-04-17'));
     }
     onDateSelect(event: any) {
-        console.log(new Date()+event);
-        this.getChartData(this.selectedDevice.deviceEui, new Date(), new Date(new Date().getDate() + event));
-        // this.getChartData(this.selectedDevice.deviceEui, new Date(), new Date());
+        if(this.selectedDevice !== undefined) {
+            this.getChartData(this.selectedDevice.deviceEui, new Date(), new Date(new Date().getDate() + event));
+        }
+        
     }
 }
