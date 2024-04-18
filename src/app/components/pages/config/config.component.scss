@@ -3,41 +3,28 @@
     height: 90%;
     background-color: var(--linen);
 
-    > mat-card-content {
-        display: flex;
-    }
-}
+    >mat-card-content {
+        padding-left: 64px;
 
-.left {
-    //background-color: red;
-    flex: 1;
-    padding-right: 64px;
-    border-right: 2px solid black;
-}
+        >.entry {
+            background-color: var(--denim);
+            color: white;
+            font-size: 1.2em;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 16px;
 
-.right {
-    //background-color: blue;
-    flex: 1;
-    padding-left: 64px;
-}
+            >.title {
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 16px;
+                font-size: 1.2em;
+            }
 
-.entry {
-    background-color: var(--denim);
-    color: white;
-    font-size: 1.2em;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-    padding: 16px;
-    margin-bottom: 16px;
-    border-radius: 16px;
-
-    > .title {
-        display: inline-block;
-        vertical-align: middle;
-        margin-left: 16px;
-        font-size: 1.2em;
-    }
-
-    > mat-form-field {
-        margin: 8px;
+            >mat-form-field {
+                margin: 8px;
+            }
+        }
     }
 }
