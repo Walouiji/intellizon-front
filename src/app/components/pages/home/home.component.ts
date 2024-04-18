@@ -34,6 +34,10 @@ export class HomeComponent implements OnInit {
         this.sensorService
             .getDevices().subscribe(devices => {
                 this.deviceList = devices;
+
+                // Appareil sélectionné par défaut
+                this.selectedDevice = this.deviceList[0];
+                this.getChartData(this.selectedDevice.deviceEui, new Date('2024-04-16'), new Date('2024-04-17'));
             });
 
             this.latestTemperatureData = { value: 0, unit: '°C' };

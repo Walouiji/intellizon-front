@@ -1,7 +1,7 @@
 <body>
 	<h1>{{selectedDevice??"Selectionner Appareil"}} </h1>
 	<div>
-		<mat-form-field>
+		<mat-form-field class="device-select">
 			<mat-label>Sélectionner un terminal</mat-label>
 			<mat-select [(ngModel)]="selectedDevice" (selectionChange)="onSelect(selectedDevice)">
 				@for (terminal of deviceList; track $index) {
