@@ -16,8 +16,8 @@ import { SensorService } from '../../services/sensor.service';
 	styleUrl: './card.component.scss'
 })
 export class CardComponent {
-	@Input() tempActuel!: number;
-	@Input() tempIdeal!: number;
+	@Input() tempActuel: number | undefined;
+	@Input() tempIdeal: number | undefined;
 
 	@Input() type!: string;
     @Input() color!: string; // Au format "rrr, ggg, bbb"
