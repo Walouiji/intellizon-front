@@ -21,7 +21,7 @@ export class SensorService {
         return this.http.get<SensorData[]>(url, { headers: headers });
     }
     getDevices(): Observable<any> {
-        const url = API_BASE_URL + "collections";
+        const url = `${API_BASE_URL}collections`;
         const headers = new HttpHeaders({
             'Authorization': API_KEY
         });
