@@ -16,7 +16,7 @@
 			<mat-button-toggle value=7 style="width: 100px">7 j</mat-button-toggle>
 		</mat-button-toggle-group>
 	</div>
-	<card [valueActuel]="latestTemperatureData.value" [unit]="latestTemperatureData.unit" [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
+	<card [currentDevice]="selectedDevice.deviceEui" [valueActuel]="latestTemperatureData.value" [unit]="latestTemperatureData.unit" [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
 	<br />
 	<card [valueActuel]="latestHumidityData.value" [unit]="latestHumidityData.unit" [type]="'humidity'" [color]="'17, 196, 209'" [data]="humidityData" />
 	<br />

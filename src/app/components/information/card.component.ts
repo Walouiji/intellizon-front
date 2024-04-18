@@ -7,11 +7,13 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
 import { ChartComponent } from '../chart/chart.component';
 import { SensorService } from '../../services/sensor.service';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 @Component({
 	selector: 'card',
 	standalone: true,
-	imports: [MatCardModule, MatDividerModule, HttpClientModule, DatePipe, MatGridListModule, MatIconModule, ChartComponent],
+	imports: [MatCardModule, MatDividerModule, HttpClientModule, DatePipe, MatGridListModule, MatIconModule, ChartComponent, MatButtonModule, RouterModule],
 	templateUrl: './card.component.html',
 	styleUrl: './card.component.scss'
 })
@@ -19,6 +21,8 @@ export class CardComponent {
 	@Input() valueActuel!: number | undefined;
 	@Input() valueIdeal!: number | undefined;
 	@Input() unit!: string |undefined;
+	
+	@Input() currentDevice: string | undefined
 
 	@Input() type!: string;
     @Input() color!: string; // Au format "rrr, ggg, bbb"
