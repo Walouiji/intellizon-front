@@ -16,11 +16,13 @@ import { SensorService } from '../../services/sensor.service';
 	styleUrl: './card.component.scss'
 })
 export class CardComponent {
-	@Input() tempActuel!: number;
-	@Input() tempIdeal!: number;
+	@Input() valueActuel!: number | undefined;
+	@Input() valueIdeal!: number | undefined;
+	@Input() unit!: string |undefined;
 
 	@Input() type!: string;
     @Input() color!: string; // Au format "rrr, ggg, bbb"
     @Input() data!: { time: Date; value: number; }[];
 
+	constructor(private sensorService: SensorService) { }
 }

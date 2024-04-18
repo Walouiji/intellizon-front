@@ -20,6 +20,15 @@ export class SensorService {
         });
         return this.http.get<SensorData[]>(url, { headers: headers });
     }
+
+    getLatestData(devEUI: string): Observable<SensorData> {
+        const url = `${API_BASE_URL}getLatestData/${devEUI}`;
+        const headers = new HttpHeaders({
+            'Authorization': API_KEY
+        });
+        return this.http.get<SensorData>(url, { headers: headers });
+    }
+
     getDevices(): Observable<any> {
         const url = `${API_BASE_URL}collections`;
         const headers = new HttpHeaders({

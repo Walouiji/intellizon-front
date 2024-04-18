@@ -12,10 +12,10 @@
 			</mat-select>
 		</mat-form-field>
 	</div>
-	<card [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
+	<card [valueActuel]="latestTemperatureData.value" [unit]="latestTemperatureData.unit" [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
 	<br />
-	<card [type]="'humidity'" [color]="'17, 196, 209'" [data]="humidityData" />
+	<card [valueActuel]="latestHumidityData.value" [unit]="latestHumidityData.unit" [type]="'humidity'" [color]="'17, 196, 209'" [data]="humidityData" />
 	<br />
-	<card [type]="'light'" [color]="'2, 222, 127'" [data]="lightData" />
+	<card [valueActuel]="latestLightData.value" [unit]="latestLightData.unit" [type]="'light'" [color]="'2, 222, 127'" [data]="lightData" />
 	<br />
 </body>

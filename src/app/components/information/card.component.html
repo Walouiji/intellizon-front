@@ -12,13 +12,13 @@
                     <mat-card-content>
                         <mat-grid-list cols="3" rowHeight="50px">
                             <mat-grid-tile colspan="2" rowspan="2">
-                                <h1 style="font-size: 64px; align-self: flex-end;">{{this.tempActuel??"--"}}°C</h1>
+                                <h1 style="font-size: 32px; align-self: flex-end;">{{this.valueActuel??"--"}}{{this.unit}}</h1>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1">
                                 <mat-icon fontIcon="call_made"></mat-icon>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1">
-                                <p>{{this.tempIdeal??"--"}} °C</p>
+                                <p>{{this.valueIdeal??"--"}} °C</p>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="3" rowspan="1">
                                 <p>en cours de chauffe</p>

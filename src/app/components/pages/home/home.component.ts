@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 
 import { SensorService } from '../../../services/sensor.service';
@@ -15,11 +15,15 @@ import { ChartComponent } from "../../chart/chart.component";
     styleUrl: './home.component.scss',
     imports: [CardComponent, ChartComponent, MatFormFieldModule, MatSelectModule, FormsModule]
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
 
     public temperatureData!: { time: Date; value: number; }[];
     public humidityData!: { time: Date; value: number; }[];
     public lightData!: { time: Date; value: number; }[];
+
+    public latestTemperatureData!: { value: number; unit: string; };
+    public latestHumidityData!: { value: number; unit: string; };
+    public latestLightData!: { value: number; unit: string; };
 
     deviceList: any = []
     selectedDevice: any;
@@ -31,6 +35,10 @@ export class HomeComponent implements OnInit{
             .getDevices().subscribe(devices => {
                 this.deviceList = devices;
             });
+
+            this.latestTemperatureData = { value: 0, unit: '°C' };
+            this.latestHumidityData = { value: 0, unit: '%' };
+            this.latestLightData = { value: 0, unit: 'Lx' };
     }
 
     /**
@@ -49,8 +57,21 @@ export class HomeComponent implements OnInit{
             });
     }
 
+    getLatestData(deviceEui: string) {
+        this.sensorService
+            .getLatestData(deviceEui)
+            .subscribe(sensorData => {
+                console.log(sensorData);
+                this.latestTemperatureData = sensorData.temperature
+                this.latestHumidityData = sensorData.humidity
+                this.latestLightData = sensorData.light
+                console.log(this.latestTemperatureData);
+            });
+    }
+
     onSelect(event: any) {
         this.selectedDevice = event;
+        this.getLatestData(this.selectedDevice.deviceEui);
         this.getChartData(this.selectedDevice.deviceEui, new Date('2024-04-16'), new Date('2024-04-17'));
     }
 }
