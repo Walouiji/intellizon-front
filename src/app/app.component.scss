@@ -1,13 +1,13 @@
 html {
-    --mat-sidenav-container-background-color: #FCF6F3 !important;
+    --mat-sidenav-container-background-color: #fcf6f3 !important;
 }
 
 .example-container {
-    --haiti: #0A0F27;
+    --haiti: #0a0f27;
     --stratos: #001952;
     --catalina: #043775;
-    --denim: #12769E;
-    --linen: #FCF6F3;
+    --denim: #12769e;
+    --linen: #fcf6f3;
 
     display: flex;
     flex-direction: column;
@@ -16,7 +16,7 @@ html {
     bottom: 0;
     left: 0;
     right: 0;
-    --mat-sidenav-content-background-color: #e3e3e3;
+    --mat-sidenav-content-background-color: #12769e2d;
 }
 
 .example-is-mobile .example-toolbar {
@@ -26,8 +26,8 @@ html {
 }
 
 .example-toolbar {
-    background-color: #12769E;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.250);
+    background-color: #12769e;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     z-index: 2;
 }
 
@@ -36,8 +36,9 @@ html {
 }
 
 .sidebar {
+    min-width: 170px;
 
-    >a {
+    > a {
         color: var(--haiti);
 
         .mat-icon {

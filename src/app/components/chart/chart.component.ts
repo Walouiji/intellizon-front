@@ -53,7 +53,8 @@ export class ChartComponent implements AfterViewInit, OnChanges {
                     borderColor: `rgba(${this.color}, 1)`,
                     backgroundColor: `rgba(${this.color}, 0.2)`,
                     fill: true,
-                    pointRadius: 0
+                    pointRadius: 0,
+                    tension: 0.2
                 }]
             },
             options: {
