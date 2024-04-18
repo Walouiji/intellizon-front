@@ -7,9 +7,6 @@ import { SensorService } from '../../../services/sensor.service';
 import { CardComponent } from '../../information/card.component';
 import { ChartComponent } from "../../chart/chart.component";
 
-import { FormsModule } from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
 
 @Component({
     selector: 'home',
