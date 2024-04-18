@@ -1,17 +1,17 @@
-<h1>{{selectedDevice??"Selectionner Appareil"}} </h1>
-<div>
-	<mat-form-field>
-		<mat-label>Sélectionner un terminal</mat-label>
-		<mat-select [(ngModel)]="selectedDevice" (selectionChange)="onSelect(selectedDevice)">
-			@for (terminal of deviceList; track $index) {
-			<mat-option [value]="terminal">
-				{{ terminal.deviceName }}
-			</mat-option>
-			}
-		</mat-select>
-	</mat-form-field>
-</div>
 <body>
+	<h1>{{selectedDevice??"Selectionner Appareil"}} </h1>
+	<div>
+		<mat-form-field>
+			<mat-label>Sélectionner un terminal</mat-label>
+			<mat-select [(ngModel)]="selectedDevice" (selectionChange)="onSelect(selectedDevice)">
+				@for (terminal of deviceList; track $index) {
+				<mat-option [value]="terminal">
+					{{ terminal.deviceName }}
+				</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+	</div>
 	<card [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
 	<br />
 	<card [type]="'humidity'" [color]="'17, 196, 209'" [data]="humidityData" />
