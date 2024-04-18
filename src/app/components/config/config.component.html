@@ -1,0 +1,44 @@
+<mat-card class="contenu">
+  <mat-card-content>
+    <div class="left">Type - name</div>
+    <div class="right">
+      Automatisation: config
+      <div class="entry">
+        <button mat-mini-fab color="warn" aria-label="del">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-form-field>
+          <mat-label>Changement</mat-label>
+          <mat-select value="temperature">
+            <mat-option value="temperature">Température</mat-option>
+            <mat-option value="humidite">Humidité</mat-option>
+            <mat-option value="luminosite">Luminosité</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Cible</mat-label>
+          <mat-select value="radiateur1">
+            <mat-option value="radiateur1">Radiateur chambre</mat-option>
+            <mat-option value="humidifieur1">Humidifieur cuisine</mat-option>
+            <mat-option value="lampe1">Lampe salon</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br />
+        Maintenir la température entre
+        <mat-form-field>
+          <mat-label>Min</mat-label>
+          <input matInput type="number" placeholder="0" />
+        </mat-form-field>
+        et
+        <mat-form-field>
+          <mat-label>Max</mat-label>
+          <input matInput type="number" placeholder="0" />
+        </mat-form-field>
+      </div>
+
+      <button mat-mini-fab color="primary" aria-label="add">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
