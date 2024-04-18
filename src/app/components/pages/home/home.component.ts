@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import { SensorService } from '../../../services/sensor.service';
 import { CardComponent } from '../../information/card.component';
 import { ChartComponent } from "../../chart/chart.component";
+import { now } from 'moment';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { ChartComponent } from "../../chart/chart.component";
     standalone: true,
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
-    imports: [CardComponent, ChartComponent, MatFormFieldModule, MatSelectModule, FormsModule]
+    imports: [CardComponent, ChartComponent, MatFormFieldModule, MatSelectModule, FormsModule, MatButtonToggleModule]
 })
 export class HomeComponent implements OnInit {
 
@@ -24,6 +26,8 @@ export class HomeComponent implements OnInit {
     public latestTemperatureData!: { value: number; unit: string; };
     public latestHumidityData!: { value: number; unit: string; };
     public latestLightData!: { value: number; unit: string; };
+
+    dateSelection!: number;
 
     deviceList: any = []
     selectedDevice: any;
@@ -38,6 +42,7 @@ export class HomeComponent implements OnInit {
                 // Appareil sélectionné par défaut
                 this.selectedDevice = this.deviceList[0];
                 this.getChartData(this.selectedDevice.deviceEui, new Date('2024-04-16'), new Date('2024-04-17'));
+                this.getLatestData(this.selectedDevice.deviceEui);
             });
 
             this.latestTemperatureData = { value: 0, unit: '°C' };
@@ -77,5 +82,10 @@ export class HomeComponent implements OnInit {
         this.selectedDevice = event;
         this.getLatestData(this.selectedDevice.deviceEui);
         this.getChartData(this.selectedDevice.deviceEui, new Date('2024-04-16'), new Date('2024-04-17'));
+    }
+    onDateSelect(event: any) {
+        console.log(new Date()+event);
+        this.getChartData(this.selectedDevice.deviceEui, new Date(), new Date(new Date().getDate() + event));
+        // this.getChartData(this.selectedDevice.deviceEui, new Date(), new Date());
     }
 }
