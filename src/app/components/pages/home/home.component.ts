@@ -21,6 +21,10 @@ export class HomeComponent implements OnInit {
     public humidityData!: { time: Date; value: number; }[];
     public lightData!: { time: Date; value: number; }[];
 
+    public latestTemperatureData!: { value: number; unit: string; };
+    public latestHumidityData!: { value: number; unit: string; };
+    public latestLightData!: { value: number; unit: string; };
+
     deviceList: any = []
     selectedDevice: any;
 
@@ -35,6 +39,10 @@ export class HomeComponent implements OnInit {
                 this.selectedDevice = this.deviceList[0];
                 this.getChartData(this.selectedDevice.deviceEui, new Date('2024-04-16'), new Date('2024-04-17'));
             });
+
+            this.latestTemperatureData = { value: 0, unit: '°C' };
+            this.latestHumidityData = { value: 0, unit: '%' };
+            this.latestLightData = { value: 0, unit: 'Lx' };
     }
 
     /**
@@ -53,8 +61,21 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    getLatestData(deviceEui: string) {
+        this.sensorService
+            .getLatestData(deviceEui)
+            .subscribe(sensorData => {
+                console.log(sensorData);
+                this.latestTemperatureData = sensorData.temperature
+                this.latestHumidityData = sensorData.humidity
+                this.latestLightData = sensorData.light
+                console.log(this.latestTemperatureData);
+            });
+    }
+
     onSelect(event: any) {
         this.selectedDevice = event;
+        this.getLatestData(this.selectedDevice.deviceEui);
         this.getChartData(this.selectedDevice.deviceEui, new Date('2024-04-16'), new Date('2024-04-17'));
     }
 }
