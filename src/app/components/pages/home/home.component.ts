@@ -7,6 +7,7 @@ import { SensorService } from '../../../services/sensor.service';
 import { CardComponent } from '../../information/card.component';
 import { ChartComponent } from "../../chart/chart.component";
 
+
 @Component({
     selector: 'home',
     standalone: true,
@@ -14,24 +15,22 @@ import { ChartComponent } from "../../chart/chart.component";
     styleUrl: './home.component.scss',
     imports: [CardComponent, ChartComponent, MatFormFieldModule, MatSelectModule, FormsModule]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit{
 
     public temperatureData!: { time: Date; value: number; }[];
     public humidityData!: { time: Date; value: number; }[];
     public lightData!: { time: Date; value: number; }[];
 
-    deviceList: any;
-    selectedDevice!: any;
+    deviceList: any = []
+    selectedDevice: any;
 
     constructor(private sensorService: SensorService) { }
 
-    ngOnInit() {
-        // this.getChartData(this.selectedDevice.deviceName, new Date('2024-04-16'), new Date('2024-04-17'));
-
-        this.sensorService.getDevices().subscribe(data => {
-            this.deviceList = data;
-            console.log(this.deviceList);
-          });
+    ngOnInit(): void {
+        this.sensorService
+            .getDevices().subscribe(devices => {
+                this.deviceList = devices;
+            });
     }
 
     /**
@@ -50,9 +49,8 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    onSelect(device: any) {
-        console.log(device);
-        this.selectedDevice = device;
-        this.getChartData(this.selectedDevice.deviceName, new Date('2024-04-16'), new Date('2024-04-17'));
+    onSelect(event: any) {
+        this.selectedDevice = event;
+        this.getChartData(this.selectedDevice.deviceEui, new Date('2024-04-16'), new Date('2024-04-17'));
     }
 }
