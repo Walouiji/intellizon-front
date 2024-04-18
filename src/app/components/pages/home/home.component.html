@@ -1,5 +1,4 @@
 <body>
-	<h1>{{selectedDevice??"Selectionner Appareil"}} </h1>
 	<div>
 		<mat-form-field class="device-select">
 			<mat-label>Sélectionner un terminal</mat-label>
@@ -11,6 +10,12 @@
 				}
 			</mat-select>
 		</mat-form-field>
+		<mat-button-toggle-group [(ngModel)]="dateSelection" (valueChange)="onDateSelect(dateSelection)">
+			<mat-button-toggle value=1>24h</mat-button-toggle>
+			<mat-button-toggle value=2>48h</mat-button-toggle>
+			<mat-button-toggle value=7>1 semaine</mat-button-toggle>
+			<mat-button-toggle value=14>2 semaines</mat-button-toggle>
+		  </mat-button-toggle-group>
 	</div>
 	<card [valueActuel]="latestTemperatureData.value" [unit]="latestTemperatureData.unit" [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
 	<br />
