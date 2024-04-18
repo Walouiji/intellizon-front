@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
     dateSelection!: number;
 
     deviceList: any = []
-    selectedDevice: any;
+    selectedDevice!: any;
 
     constructor(private sensorService: SensorService) { }
 
