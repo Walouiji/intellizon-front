@@ -1,5 +1,17 @@
 <mat-card class="contenu">
   <mat-card-content>
+    <div>
+      <mat-form-field class="device-select">
+        <mat-label>Sélectionner un terminal</mat-label>
+        <mat-select [(ngModel)]="selectedDevice" (selectionChange)="onSelect(selectedDevice)">
+          @for (terminal of deviceList; track $index) {
+          <mat-option [value]="terminal">
+            {{ terminal.deviceName }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
     Automatisation: config
     <div class="entry">
       <button mat-mini-fab color="warn" aria-label="del">
@@ -7,34 +19,26 @@
       </button>
       <mat-form-field>
         <mat-label>Changement</mat-label>
-        <mat-select value="temperature">
+        <mat-select (selectionChange)="onChangeType()" [(ngModel)]="this.selectedType" value="type">
           <mat-option value="temperature">Température</mat-option>
-          <mat-option value="humidite">Humidité</mat-option>
-          <mat-option value="luminosite">Luminosité</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Cible</mat-label>
-        <mat-select value="radiateur1">
-          <mat-option value="radiateur1">Radiateur chambre</mat-option>
-          <mat-option value="humidifieur1">Humidifieur cuisine</mat-option>
-          <mat-option value="lampe1">Lampe salon</mat-option>
+          <mat-option value="humidity">Humidité</mat-option>
+          <mat-option value="light">Luminosité</mat-option>
         </mat-select>
       </mat-form-field>
       <br />
-      Maintenir la température entre
+      Maintenir {{this.selectedType}} entre
       <mat-form-field>
         <mat-label>Min</mat-label>
-        <input matInput type="number" placeholder="0" />
+        <input [(ngModel)]="this.selectedMin" matInput type="number" placeholder="0" />
       </mat-form-field>
       et
       <mat-form-field>
         <mat-label>Max</mat-label>
-        <input matInput type="number" placeholder="0" />
+        <input [(ngModel)]="this.selectedMax" matInput type="number" placeholder="0" />
       </mat-form-field>
     </div>
 
-    <button mat-mini-fab color="primary" aria-label="add">
+    <button (click)="addConfig()" mat-mini-fab color="primary" aria-label="add">
       <mat-icon>add</mat-icon>
     </button>
   </mat-card-content>

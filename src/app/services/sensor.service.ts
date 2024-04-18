@@ -36,4 +36,20 @@ export class SensorService {
         });
         return this.http.get(url, { headers: headers });
     }
+
+    putConfig(devEUI: string, config: any): Observable<any> {
+        const url = `${API_BASE_URL}saveConfig/${devEUI}`;
+        const headers = new HttpHeaders({
+            'Authorization': API_KEY
+        });
+        const body = config;
+        return this.http.put(url, config, { headers: headers });
+    }
+    getConfig(devEUI: string): Observable<any> {
+        const url = `${API_BASE_URL}getConfig/${devEUI}`;
+        const headers = new HttpHeaders({
+            'Authorization': API_KEY
+        });
+        return this.http.get(url, { headers: headers });
+    }
 }
