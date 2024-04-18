@@ -1,1 +1,60 @@
-<router-outlet></router-outlet>
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <img class="icon" src="favicon.ico" />
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">IntelliZon</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="example-sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+  >
+    <mat-sidenav
+      #snav
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56"
+    >
+      <mat-nav-list class="sidebar">
+        <a mat-list-item routerLink="/" href="/"
+          ><mat-icon
+            aria-hidden="false"
+            aria-label="Accueil"
+            fontIcon="home"
+          ></mat-icon
+          >Accueil</a
+        >
+        <a mat-list-item fontIcon="home" routerLink="/details" href="/details"
+          ><mat-icon
+            aria-hidden="false"
+            aria-label="Détails"
+            fontIcon="list"
+          ></mat-icon
+          >Détails</a
+        >
+        <a mat-list-item routerLink="/notifications" href="/notifications"
+          ><mat-icon
+            aria-hidden="false"
+            aria-label="Notifications"
+            fontIcon="notifications"
+          ></mat-icon
+          >Notifications</a
+        >
+        <a mat-list-item routerLink="/config" href="/config"
+          ><mat-icon
+            aria-hidden="false"
+            aria-label="Tâches"
+            fontIcon="pending_actions"
+          ></mat-icon
+          >Tâches</a
+        >
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
