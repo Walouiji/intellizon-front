@@ -1,20 +1,20 @@
 <body>
 	<div>
 		<mat-form-field class="device-select">
-			<mat-label>Sélectionner un terminal</mat-label>
 			<mat-select [(ngModel)]="selectedDevice" (selectionChange)="onSelect(selectedDevice)">
 				@for (terminal of deviceList; track $index) {
-				<mat-option [value]="terminal">
-					{{ terminal.deviceName }}
-				</mat-option>
+					<mat-option [value]="terminal">
+						{{ terminal.deviceName }}
+					</mat-option>
 				}
 			</mat-select>
 		</mat-form-field>
+
 		<mat-button-toggle-group [(ngModel)]="dateSelection" (valueChange)="onDateSelect(dateSelection)">
-			<mat-button-toggle value=1>1 jour</mat-button-toggle>
-			<mat-button-toggle value=2>2 jours </mat-button-toggle>
-			<mat-button-toggle value=7>1 semaine</mat-button-toggle>
-		  </mat-button-toggle-group>
+			<mat-button-toggle value=1 style="width: 100px">24 h</mat-button-toggle>
+			<mat-button-toggle value=2 style="width: 100px">48 h</mat-button-toggle>
+			<mat-button-toggle value=7 style="width: 100px">7 j</mat-button-toggle>
+		</mat-button-toggle-group>
 	</div>
 	<card [valueActuel]="latestTemperatureData.value" [unit]="latestTemperatureData.unit" [type]="'temperature'" [color]="'70, 51, 245'" [data]="temperatureData" />
 	<br />
