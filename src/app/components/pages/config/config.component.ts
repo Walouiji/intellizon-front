@@ -64,6 +64,7 @@ export class ConfigComponent implements OnInit {
         // Requête pour récupérer la liste des lumières connectées
         this.sensorService.getConnectedLight().subscribe((connectedlights) => {
             this.connectedLightsList = connectedlights;
+            this.selectedLight = this.connectedLightsList.length > 0 ? this.connectedLightsList[0].id : '';
         });
     }
 
@@ -85,11 +86,12 @@ export class ConfigComponent implements OnInit {
         });
     }
 
+    getLightName(uuid: string): string {
+        const cl = this.connectedLightsList.find((cl) => cl.id === uuid);
+        return cl ? cl.name : cl.id;
+    }
 
-    /* Entrées de formulaire */
-
-
-    saveTempConfig() {
+    addConfig() {
         switch (this.selectedType) {
             case 'temperature':
                 this.configTemperature = {
@@ -118,9 +120,25 @@ export class ConfigComponent implements OnInit {
         }
     }
 
-    getLightName(uuid: string): string {
-        const cl = this.connectedLightsList.find((cl) => cl.id === uuid);
-        return cl ? cl.name : cl.id;
-    }
+    saveConfig() {
+        const config: {
+            temperature?: { min: number, max: number };
+            humidity?: { min: number, max: number };
+            light?: { toggle: number, controlledLights: string[] };
+        } = {};
 
+        if (this.configTemperature) {
+            config.temperature = this.configTemperature.temperature;
+        }
+        if (this.configHumidity) {
+            config.humidity = this.configHumidity.humidity;
+        }
+        if (this.configLight) {
+            config.light = this.configLight.light;
+        }
+
+        console.log(config);
+
+        this.sensorService.putConfig(this.selectedDevice.deviceEui, config).subscribe(response => console.log(response));
+    }
 }

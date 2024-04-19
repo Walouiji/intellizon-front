@@ -12,11 +12,11 @@
                 </mat-select>
             </mat-form-field>
 
-            <button mat-raised-button>Enregistrer la configuration</button>
+            <button mat-raised-button (click)="saveConfig()">Enregistrer la configuration</button>
         </div>
 
         <div class="entry">
-            <button mat-mini-fab color="white" aria-label="add" style="margin-right: 15px;" (click)="saveTempConfig()">
+            <button mat-mini-fab color="white" aria-label="add" style="margin-right: 15px;" (click)="addConfig()">
                 <mat-icon>add</mat-icon>
             </button>
 

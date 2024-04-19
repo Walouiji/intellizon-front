@@ -51,9 +51,9 @@ export class SensorService {
         const headers = new HttpHeaders({
             'Authorization': API_KEY
         });
-        const body = config;
         return this.http.put(url, config, { headers: headers });
     }
+
     getConfig(devEUI: string): Observable<any> {
         const url = `${API_BASE_URL}getConfig/${devEUI}`;
         const headers = new HttpHeaders({
