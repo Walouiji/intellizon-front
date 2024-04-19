@@ -22,7 +22,8 @@
                                 <p>en cours de chauffe</p>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="3" rowspan="1">
-                                <button [routerLink]="['config', this.currentDevice]" mat-button>Configuration</button>
+                                <button [routerLink]="['/config']" [queryParams]="{ deviceEui: this.currentDevice }"
+                                    mat-button>Configuration</button>
                             </mat-grid-tile>
                         </mat-grid-list>
                     </mat-card-content>

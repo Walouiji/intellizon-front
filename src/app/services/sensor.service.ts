@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_URL, API_KEY } from '../../environment/environment';
 import { SensorData } from '../models/sensor-data/sensor-data.interface';
+import { Device } from '../models/device/device.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -29,12 +30,20 @@ export class SensorService {
         return this.http.get<SensorData>(url, { headers: headers });
     }
 
-    getDevices(): Observable<any> {
+    getDevices(): Observable<Device[]> {
         const url = `${API_BASE_URL}collections`;
         const headers = new HttpHeaders({
             'Authorization': API_KEY
         });
-        return this.http.get(url, { headers: headers });
+        return this.http.get<Device[]>(url, { headers: headers });
+    }
+
+    getConnectedLight(): Observable<any> {
+        const url = `${API_BASE_URL}getConnectedLights`;
+        const headers = new HttpHeaders({
+            'Authorization': API_KEY
+        });
+        return this.http.get<any>(url, { headers: headers });
     }
 
     putConfig(devEUI: string, config: any): Observable<any> {

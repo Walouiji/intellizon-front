@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,104 +9,118 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { SensorService } from '../../../services/sensor.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Device } from '../../../models/device/device.interface';
+
 
 @Component({
-  selector: 'app-config',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    FormsModule
-  ],
-  templateUrl: './config.component.html',
-  styleUrl: './config.component.scss',
+    selector: 'app-config',
+    standalone: true,
+    imports: [
+        MatCardModule,
+        MatIconModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        FormsModule
+    ],
+    templateUrl: './config.component.html',
+    styleUrl: './config.component.scss',
 })
 export class ConfigComponent implements OnInit {
-  deviceList: any = []
-  selectedDevice: any;
+    deviceList: Device[] = [];
+    selectedDevice: any;
 
-  fullConfig = {}
-  selectedType: string = 'temperature';
-  selectedMin: number = 0;
-  selectedMax: number = 0;
-  selectedConfig: string = "";
+    connectedLightsList: any[] = [];
 
-  constructor(private sensorService: SensorService, private route: ActivatedRoute) { }
+    selectedType: string = 'temperature';
 
-  ngOnInit(): void {
+    minTemperature = -100;
+    maxTemperature = 100;
+    minHumidity = 0;
+    maxHumidity = 100;
+    selectedLight = "";
+    lightValue = 0;
 
-    this.route.paramMap.subscribe(params => {
-      this.selectedDevice = params.get('currentDevice');
-    });
+    configTemperature: { temperature: { min: number, max: number } } | undefined;
+    configHumidity: { humidity: { min: number, max: number } } | undefined;
+    configLight: { light: { toggle: number, controlledLights: string[] } } | undefined;
 
-    this.sensorService
-      .getDevices().subscribe(devices => {
-        this.deviceList = devices
-        devices.map((device: any) => {
-          if (device.deviceEui === this.selectedDevice) {
-            this.selectedDevice = device
-          }
+    constructor(
+        private sensorService: SensorService,
+        private router: Router,
+        private route: ActivatedRoute
+    ) { }
+
+    ngOnInit(): void {
+        this.route.queryParams.subscribe(params => {
+            const deviceEui = params['deviceEui'];  // <url>/config?deviceEui=<deviceEui>
+            this.selectedDevice = deviceEui;
+
+            this.getDeviceList();
         });
-        this.sensorService.getConfig(this.selectedDevice.deviceEui).subscribe(config => {
-          this.fullConfig = config;
-          if(config.temperature) {
-            this.selectedType = 'temperature';
-          } else if(config.humidity) {
-            this.selectedType = 'humidity';
-          } else if(config.light) {
-            this.selectedType = 'light';
-          }
-          this.selectedMin = config[this.selectedType].min;
-          this.selectedMax = config[this.selectedType].max;
 
-          console.log(this.selectedType, this.selectedMin, this.selectedMax, this.fullConfig);
+        // Requête pour récupérer la liste des lumières connectées
+        this.sensorService.getConnectedLight().subscribe((connectedlights) => {
+            this.connectedLightsList = connectedlights;
         });
-      });
-
-      
-  }
-
-  onSelect(event: any) {
-    this.selectedDevice = event;
-  }
-
-  addConfig() {
-    const config = {
-      [this.selectedType]: {
-        min: this.selectedMin,
-        max: this.selectedMax
-      }
-    };
-    this.fullConfig = {
-      ...this.fullConfig,
-      ...config
-    };
-    this.sensorService.putConfig(this.selectedDevice.deviceEui, this.fullConfig).subscribe(() => {
-      this.selectedConfig = JSON.stringify(this.fullConfig, null, 2);
-    });
-  }
-
-  onChangeType() {
-    console.log(this.fullConfig)
-    
-    if((this.fullConfig as any).temperature) {
-      this.selectedMin = (this.fullConfig as any).temperature.min
-      this.selectedMax = (this.fullConfig as any).temperature.max
-    } 
-    if((this.fullConfig as any).humidity) {
-      this.selectedMin = (this.fullConfig as any).humidity.min
-      this.selectedMax = (this.fullConfig as any).humidity.max
-    } 
-    if((this.fullConfig as any).light) {
-      this.selectedMin = (this.fullConfig as any).light.min
-      this.selectedMax = (this.fullConfig as any).light.max
     }
-    console.log(this.selectedType, this.selectedMin, this.selectedMax);
-    
-  }
+
+    // Requête pour récupérer la liste des appareils
+    getDeviceList(): void {
+        this.sensorService.getDevices().subscribe((devices) => {
+            this.deviceList = devices;
+            this.selectedDevice = this.deviceList.find(
+                (device) => device.deviceEui === this.selectedDevice
+            );
+        });
+    }
+
+    // Changer d'appareil avec le dropdown
+    onSelect(event: any) {
+        this.selectedDevice = event;
+        this.router.navigate(['config'], {  // <url>/config?deviceEui=<deviceEui>
+            queryParams: { deviceEui: this.selectedDevice.deviceEui }
+        });
+    }
+
+
+    /* Entrées de formulaire */
+
+
+    saveTempConfig() {
+        switch (this.selectedType) {
+            case 'temperature':
+                this.configTemperature = {
+                    temperature: {
+                        min: this.minTemperature,
+                        max: this.maxTemperature
+                    }
+                }
+                break;
+            case 'humidity':
+                this.configHumidity = {
+                    humidity: {
+                        min: this.minHumidity,
+                        max: this.maxHumidity
+                    }
+                }
+                break;
+            case 'light':
+                this.configLight = {
+                    light: {
+                        toggle: this.lightValue,
+                        controlledLights: [this.selectedLight]
+                    }
+                }
+                break;
+        }
+    }
+
+    getLightName(uuid: string): string {
+        const cl = this.connectedLightsList.find((cl) => cl.id === uuid);
+        return cl ? cl.name : cl.id;
+    }
+
 }
