@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { SensorService } from '../../../services/sensor.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Device } from '../../../models/device/device.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -50,7 +51,8 @@ export class ConfigComponent implements OnInit {
     constructor(
         private sensorService: SensorService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private snackBar: MatSnackBar
     ) { }
 
     ngOnInit(): void {
@@ -139,6 +141,15 @@ export class ConfigComponent implements OnInit {
 
         console.log(config);
 
-        this.sensorService.putConfig(this.selectedDevice.deviceEui, config).subscribe(response => console.log(response));
+        this.sensorService.putConfig(this.selectedDevice.deviceEui, config).subscribe({
+            next: () => {
+            },
+            error: (err) => {
+                this.snackBar.open(err.error, 'Fermer', {
+                    duration: 5000,
+                    panelClass: "app-notification-success"
+                });
+            }
+        });
     }
 }
