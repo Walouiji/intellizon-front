@@ -3,7 +3,7 @@
         <div class="form-top">
             <mat-form-field class="device-select">
                 <!-- <mat-label>Sélectionner un appareil</mat-label> -->
-                <mat-select [(ngModel)]="selectedDevice" (selectionChange)="onSelect(selectedDevice)">
+                <mat-select [(ngModel)]="selectedDevice" (selectionChange)="onSelect(selectedDevice)" placeholder="Sélectionner un appareil">
                     @for (terminal of deviceList; track $index) {
                     <mat-option [value]="terminal">
                         {{ terminal.deviceName }}
