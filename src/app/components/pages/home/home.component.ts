@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 })
             );
     }
-    updateConfigFields(device: any){
+    updateConfigFields(device: any) {
         return this.sensorService
             .getConfig(device)
             .pipe(
@@ -111,27 +111,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
                     this.configHumidityData = data.humidity;
                     this.configLightData = data.light;
 
-                    if(this.configTemperatureData.max !== undefined && this.configTemperatureData.min !== undefined) {
-                        this.configTemperature = (this.configTemperatureData.min + this.configTemperatureData.max) / 2;
-                    } else if (this.configTemperatureData.min !== undefined && this.configTemperatureData.max === undefined) {
-                        this.configTemperature = this.configTemperatureData.min
-                    } else if (this.configTemperatureData.min === undefined && this.configTemperatureData.max !== undefined) {
-                        this.configTemperature = this.configTemperatureData.max;
+                    // Temperature
+
+                    const maxTemp = this.configTemperatureData?.max || undefined;
+                    const minTemp = this.configTemperatureData?.min || undefined;
+
+                    if (maxTemp && minTemp) {
+                        this.configTemperature = (minTemp + maxTemp) / 2;
                     } else {
-                        this.configTemperature = "--"
+                        this.configTemperature = minTemp ?? maxTemp ?? "--";
                     }
 
-                    if(this.configHumidityData.max !== undefined && this.configHumidityData.min !== undefined) {
-                        this.configHumidity = (this.configHumidityData.min + this.configHumidityData.max) / 2;
-                    } else if (this.configHumidityData.min !== undefined && this.configHumidityData.max === undefined) {
-                        this.configHumidity = this.configHumidityData.min
-                    } else if (this.configHumidityData.min === undefined && this.configHumidityData.max !== undefined) {
-                        this.configHumidity = this.configHumidityData.max;
-                    } else {
-                        this.configHumidity = "--"
-                    }
-
-                    if(this.latestTemperatureData.value! < this.configTemperature!) {
+                    if (this.latestTemperatureData.value! < this.configTemperature!) {
                         this.t_icon = "north_east";
                         this.t_state = "Chauffage activé"
                     } else if (this.latestTemperatureData.value! > this.configTemperature!) {
@@ -139,15 +130,29 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         this.t_state = "Climatisation activée"
                     } else {
                         this.t_icon = "horizontal_rule";
+                        this.t_state = this.configTemperature == "--" ? "" : "Température régulée";
                     }
-                    if(this.latestHumidityData.value! < this.configHumidity!) {
+
+                    // Humidity
+
+                    const maxHumi = this.configHumidityData?.max || undefined;
+                    const minHumi = this.configHumidityData?.min || undefined;
+
+                    if (maxHumi && minHumi) {
+                        this.configHumidity = (minHumi + maxHumi) / 2;
+                    } else {
+                        this.configHumidity = minHumi ?? maxHumi ?? "--";
+                    }
+
+                    if (this.latestHumidityData.value! < this.configHumidity!) {
                         this.h_icon = "north_east";
-                        this.h_state = "Humidification"
+                        this.h_state = "Humidification en cours"
                     } else if (this.latestHumidityData.value! > this.configHumidity!) {
                         this.h_icon = "south_east";
-                        this.h_state = "Déshumidification"
+                        this.h_state = "Déshumidification en cours"
                     } else {
                         this.h_icon = "horizontal_rule";
+                        this.h_state = this.configHumidity == "--" ? "" : "Humidité régulée";
                     }
                 })
             );
