@@ -140,10 +140,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
                     } else {
                         this.t_icon = "horizontal_rule";
                     }
-                    if(this.latestTemperatureData.value! < this.configTemperature!) {
+                    if(this.latestHumidityData.value! < this.configHumidity!) {
                         this.h_icon = "north_east";
                         this.h_state = "Humidification"
-                    } else if (this.latestTemperatureData.value! > this.configTemperature!) {
+                    } else if (this.latestHumidityData.value! > this.configHumidity!) {
                         this.h_icon = "south_east";
                         this.h_state = "Déshumidification"
                     } else {
