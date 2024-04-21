@@ -10,7 +10,7 @@ import { SensorService } from '../../services/sensor.service';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-
+import { types } from '../../models/enumerators/types.enum';
 @Component({
 	selector: 'card',
 	standalone: true,
@@ -29,6 +29,8 @@ export class CardComponent implements OnInit {
 	@Input() color!: string; // Au format "rrr, ggg, bbb"
 	@Input() data!: { time: Date; value: number; }[];
 
+	type_string!: string; // Add 'as keyof typeof types' to fix the problem
+
 	icon!: string;
 
 	ngOnInit(): void {
@@ -39,6 +41,7 @@ export class CardComponent implements OnInit {
 		} else {
 			this.icon = "equal";
 		}
+		this.type_string = types[this.type as keyof typeof types]
 	}
 
 }
