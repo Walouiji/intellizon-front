@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     public t_state!: string;
     public h_state!: string;
-    public l_state!: string;
+    public l_state!: boolean;
 
     deviceList: any = []
     selectedDevice: any;
@@ -148,6 +148,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         this.h_state = "Déshumidification"
                     } else {
                         this.h_icon = "horizontal_rule";
+                    }
+
+                    if(this.latestLightData.value < 100) {
+                        this.l_state = false
+                    } else {
+                        this.l_state = true
                     }
                 })
             );
