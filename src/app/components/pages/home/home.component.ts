@@ -31,6 +31,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     public configHumidityData: { min: number, max: number } = { min: 0, max: 0 };
     public configLightData: { min: number, max: number } = { min: 0, max: 0 };
 
+    public configTemperature: any | undefined;
+    public configHumidity: any | undefined;
+    public configLight: any | undefined;
+
+    public icon!: string;
+
     deviceList: any = []
     selectedDevice: any;
     selectedDayCount = 1;
@@ -44,9 +50,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 tap(devices => {
                     this.deviceList = devices;
                     this.selectedDevice = this.deviceList[0];
-                    // console.log(this.selectedDevice.deviceEui);
                     this.updateConfigFields(this.selectedDevice.deviceEui);
-                    console.log(this.configTemperatureData, this.configHumidityData, this.configLightData);
                 }),
                 concatMap(() => this.updateCardInfos()),
                 concatMap(() => this.updateChart()),
@@ -97,10 +101,28 @@ export class HomeComponent implements OnInit, AfterViewInit {
             .getConfig(device)
             .pipe(
                 tap(data => {
-                    console.log(this.selectedDevice.deviceEui, data.temperature, data.humidity, data.light)
                     this.configTemperatureData = data.temperature;
                     this.configHumidityData = data.humidity;
                     this.configLightData = data.light;
+
+                    if(this.configTemperatureData.max !== undefined && this.configTemperatureData.min !== undefined) {
+                        this.configTemperature = (this.configTemperatureData.min + this.configTemperatureData.max) / 2;
+                    } else if (this.configTemperatureData.min !== undefined && this.configTemperatureData.max === undefined) {
+                        this.configTemperature = this.configTemperatureData.min
+                    } else if (this.configTemperatureData.min === undefined && this.configTemperatureData.max !== undefined) {
+                        this.configTemperature = this.configTemperatureData.max;
+                    } else {
+                        this.configTemperature = "--"
+                    }
+
+                    if(this.latestTemperatureData.value! < this.configTemperature!) {
+                        this.icon = "north_east";
+                    } else if (this.latestTemperatureData.value! > this.configTemperature!) {
+                        this.icon = "south_east";
+                    } else {
+                        this.icon = "horizontal_rule";
+                    }
+                    console.log(this.latestTemperatureData, this.configTemperature, this.icon)
                 })
             );
     }

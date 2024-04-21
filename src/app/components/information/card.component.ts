@@ -20,7 +20,7 @@ import { types } from '../../models/enumerators/types.enum';
 })
 export class CardComponent implements OnInit {
 	@Input() actualValue!: number | undefined;
-	@Input() goalValue!: { min: number, max: number } | undefined;
+	@Input() goalValue!: number | undefined;
 	@Input() unit!: string | undefined;
 
 	@Input() currentDevice: string | undefined
@@ -30,28 +30,9 @@ export class CardComponent implements OnInit {
 	@Input() data!: { time: Date; value: number; }[];
 
 	type_string!: string;
-	goal_number!: number;
-	icon!: string;
+	@Input() icon!: string;
 
 	ngOnInit(): void {
-		if(this.goalValue?.min && this.goalValue?.max) {
-			this.goal_number = (this.goalValue.min + this.goalValue.max) / 2;
-		} else if(this.goalValue?.min && !this.goalValue?.max) {
-			this.goal_number = this.goalValue.min;
-		} else if(!this.goalValue?.min && this.goalValue?.max) {
-			this.goal_number = this.goalValue.max;
-		}
-
-		if(this.actualValue! < this.goal_number!) {
-			console.log("inferieur")
-			this.icon = "north_east";
-		} else if (this.actualValue! > this.goal_number!) {
-			console.log("supérieur")
-			this.icon = "south_east";
-		} else {
-			console.log("égal")
-			this.icon = "horizontal_rule";
-		}
 		this.type_string = types[this.type as keyof typeof types]
 	}
 
