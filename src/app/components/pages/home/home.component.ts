@@ -35,7 +35,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     public configHumidity: any | undefined;
     public configLight: any | undefined;
 
-    public icon!: string;
+    public t_icon!: string;
+    public h_icon!: string;
+    public l_icon!: string;
+
+    public t_state!: string;
+    public h_state!: string;
+    public l_state!: string;
 
     deviceList: any = []
     selectedDevice: any;
@@ -115,14 +121,34 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         this.configTemperature = "--"
                     }
 
-                    if(this.latestTemperatureData.value! < this.configTemperature!) {
-                        this.icon = "north_east";
-                    } else if (this.latestTemperatureData.value! > this.configTemperature!) {
-                        this.icon = "south_east";
+                    if(this.configHumidityData.max !== undefined && this.configHumidityData.min !== undefined) {
+                        this.configHumidity = (this.configHumidityData.min + this.configHumidityData.max) / 2;
+                    } else if (this.configHumidityData.min !== undefined && this.configHumidityData.max === undefined) {
+                        this.configHumidity = this.configHumidityData.min
+                    } else if (this.configHumidityData.min === undefined && this.configHumidityData.max !== undefined) {
+                        this.configHumidity = this.configHumidityData.max;
                     } else {
-                        this.icon = "horizontal_rule";
+                        this.configHumidity = "--"
                     }
-                    console.log(this.latestTemperatureData, this.configTemperature, this.icon)
+
+                    if(this.latestTemperatureData.value! < this.configTemperature!) {
+                        this.t_icon = "north_east";
+                        this.t_state = "Chauffage activé"
+                    } else if (this.latestTemperatureData.value! > this.configTemperature!) {
+                        this.t_icon = "south_east";
+                        this.t_state = "Climatisation activée"
+                    } else {
+                        this.t_icon = "horizontal_rule";
+                    }
+                    if(this.latestTemperatureData.value! < this.configTemperature!) {
+                        this.h_icon = "north_east";
+                        this.h_state = "Humidification"
+                    } else if (this.latestTemperatureData.value! > this.configTemperature!) {
+                        this.h_icon = "south_east";
+                        this.h_state = "Déshumidification"
+                    } else {
+                        this.h_icon = "horizontal_rule";
+                    }
                 })
             );
     }

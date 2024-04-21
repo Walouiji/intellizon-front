@@ -19,7 +19,7 @@
                                 <p>{{this.goalValue}} {{this.unit}}</p>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="3" rowspan="1">
-                                <p>en cours de chauffe</p>
+                                <p>{{state}}</p>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="3" rowspan="1">
                                 <button [routerLink]="['/config']" [queryParams]="{ deviceEui: this.currentDevice }"

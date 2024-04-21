@@ -19,9 +19,11 @@ import { types } from '../../models/enumerators/types.enum';
 	styleUrl: './card.component.scss'
 })
 export class CardComponent implements OnInit {
-	@Input() actualValue!: number | undefined;
+	@Input() actualValue!: any | undefined;
 	@Input() goalValue!: number | undefined;
 	@Input() unit!: string | undefined;
+
+	@Input() state!: string;
 
 	@Input() currentDevice: string | undefined
 
