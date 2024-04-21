@@ -1,4 +1,4 @@
-<mat-card class="card" style="width: 80%">
+<mat-card class="card" style="margin-right: 5%">
     <mat-card-content>
         <mat-grid-list cols="4" rowHeight="300px">
             <mat-grid-tile colspan="1">
@@ -22,7 +22,8 @@
                                 <p>en cours de chauffe</p>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="3" rowspan="1">
-                                <button [routerLink]="['config', this.currentDevice]" mat-button>Configuration</button>
+                                <button [routerLink]="['/config']" [queryParams]="{ deviceEui: this.currentDevice }"
+                                    mat-button>Configuration</button>
                             </mat-grid-tile>
                         </mat-grid-list>
                     </mat-card-content>

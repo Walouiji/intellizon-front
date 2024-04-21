@@ -8,7 +8,7 @@ export const routes: Routes = [
         component: HomeComponent,
     },
     {
-        path: 'config/:currentDevice',
+        path: 'config',
         component: ConfigComponent,
     }
 ];

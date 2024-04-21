@@ -1,45 +1,117 @@
 <mat-card class="contenu">
-  <mat-card-content>
-    <div>
-      <mat-form-field class="device-select">
-        <mat-label>Sélectionner un terminal</mat-label>
-        <mat-select [(ngModel)]="selectedDevice" (selectionChange)="onSelect(selectedDevice)">
-          @for (terminal of deviceList; track $index) {
-          <mat-option [value]="terminal">
-            {{ terminal.deviceName }}
-          </mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </div>
-    Automatisation: config
-    <div class="entry">
-      <button mat-mini-fab color="warn" aria-label="del">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <mat-form-field>
-        <mat-label>Changement</mat-label>
-        <mat-select (selectionChange)="onChangeType()" [(ngModel)]="this.selectedType" value="type">
-          <mat-option value="temperature">Température</mat-option>
-          <mat-option value="humidity">Humidité</mat-option>
-          <mat-option value="light">Luminosité</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <br />
-      Maintenir {{this.selectedType}} entre
-      <mat-form-field>
-        <mat-label>Min</mat-label>
-        <input [(ngModel)]="this.selectedMin" matInput type="number" placeholder="0" />
-      </mat-form-field>
-      et
-      <mat-form-field>
-        <mat-label>Max</mat-label>
-        <input [(ngModel)]="this.selectedMax" matInput type="number" placeholder="0" />
-      </mat-form-field>
-    </div>
+    <mat-card-content>
+        <div class="form-top">
+            <mat-form-field class="device-select">
+                <!-- <mat-label>Sélectionner un appareil</mat-label> -->
+                <mat-select [(ngModel)]="selectedDevice" (selectionChange)="onSelect(selectedDevice)" placeholder="Sélectionner un appareil">
+                    @for (terminal of deviceList; track $index) {
+                    <mat-option [value]="terminal">
+                        {{ terminal.deviceName }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
 
-    <button (click)="addConfig()" mat-mini-fab color="primary" aria-label="add">
-      <mat-icon>add</mat-icon>
-    </button>
-  </mat-card-content>
+            <button mat-raised-button (click)="saveConfig()">Enregistrer la configuration</button>
+        </div>
+
+        <div class="entry">
+            <button mat-mini-fab color="white" aria-label="add" style="margin-right: 15px;" (click)="addConfig()">
+                <mat-icon>add</mat-icon>
+            </button>
+
+            <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Configurer</mat-label>
+                <mat-select [(ngModel)]="selectedType" value="type">
+                    <mat-option value="temperature">Température</mat-option>
+                    <mat-option value="humidity">Humidité</mat-option>
+                    <mat-option value="light">Luminosité</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            @switch (selectedType) {
+
+            @case ('temperature') {
+            : Maintenir la température entre
+            <mat-form-field subscriptSizing="dynamic" style="width: 120px;">
+                <mat-label>Minimum</mat-label>
+                <input [(ngModel)]="minTemperature" matInput type="number" placeholder="0" />
+            </mat-form-field>
+            et
+            <mat-form-field subscriptSizing="dynamic" style="width: 120px;">
+                <mat-label>Maximum</mat-label>
+                <input [(ngModel)]="maxTemperature" matInput type="number" placeholder="0" />
+            </mat-form-field>
+            .
+            }
+
+            @case ('humidity') {
+            : Maintenir l'humidité entre
+            <mat-form-field subscriptSizing="dynamic" style="width: 120px;">
+                <mat-label>Minimum</mat-label>
+                <input [(ngModel)]="minHumidity" matInput type="number" placeholder="0" />
+            </mat-form-field>
+            et
+            <mat-form-field subscriptSizing="dynamic" style="width: 120px;">
+                <mat-label>Maximum</mat-label>
+                <input [(ngModel)]="maxHumidity" matInput type="number" placeholder="0" />
+            </mat-form-field>
+            .
+            }
+
+            @default{
+            : Activer l'appareil
+            <mat-form-field subscriptSizing="dynamic" style="width: 250px;">
+                <mat-label>Sélection</mat-label>
+                <mat-select [(ngModel)]="selectedLight">
+                    @for (light of connectedLightsList; track $index) {
+                    <mat-option [value]="light.id">
+                        {{ light.name }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            en dessous de
+            <mat-form-field subscriptSizing="dynamic" style="width: 120px;">
+                <mat-label>Valeur</mat-label>
+                <input [(ngModel)]="lightValue" matInput type="number" placeholder="0" />
+            </mat-form-field>
+            .
+            }
+            }
+        </div>
+    </mat-card-content>
+
+    <div class="config">
+        @if (configTemperature) {
+        <mat-card-content>
+            <button mat-mini-fab color="warn" aria-label="del" style="margin-right: 15px;"
+                (click)="configTemperature = undefined">
+                <mat-icon>delete</mat-icon>
+            </button>
+            Maintient de la température entre {{ configTemperature.temperature.min }} °C et {{
+            configTemperature.temperature.max }} °C.
+        </mat-card-content>
+        }
+        @if (configHumidity) {
+        <mat-card-content>
+            <button mat-mini-fab color="warn" aria-label="del" style="margin-right: 15px;"
+                (click)="configHumidity = undefined">
+                <mat-icon>delete</mat-icon>
+            </button>
+            Maintient de l'humidité entre {{ configHumidity.humidity.min }} % et {{ configHumidity.humidity.max }} %.
+        </mat-card-content>
+        }
+        @if (configLight) {
+        <mat-card-content>
+            <button mat-mini-fab color="warn" aria-label="del" style="margin-right: 15px;"
+                (click)="configLight = undefined">
+                <mat-icon>delete</mat-icon>
+            </button>
+            Activation de l'appareil {{ getLightName(configLight.light.controlledLights[0]) }} en dessous de {{
+            configLight.light.toggle
+            }}.
+        </mat-card-content>
+        }
+    </div>
 </mat-card>
