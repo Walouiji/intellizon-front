@@ -31,8 +31,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     public configHumidityData: { min: number, max: number } = { min: 0, max: 0 };
     public configLightData: { min: number, max: number } = { min: 0, max: 0 };
 
-    dateSelection!: number;
-
     deviceList: any = []
     selectedDevice: any;
     selectedDayCount = 1;
@@ -99,10 +97,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
             .getConfig(device)
             .pipe(
                 tap(data => {
-                    // console.log(this.selectedDevice.deviceEui, data.temperature, data.humidity, data.light)
-                    // this.configTemperatureData = data.temperature;
-                    // this.configHumidityData = data.humidity;
-                    // this.configLightData = data.light;
+                    console.log(this.selectedDevice.deviceEui, data.temperature, data.humidity, data.light)
+                    this.configTemperatureData = data.temperature;
+                    this.configHumidityData = data.humidity;
+                    this.configLightData = data.light;
                 })
             );
     }

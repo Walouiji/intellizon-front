@@ -13,10 +13,11 @@
                                     {{this.actualValue??"--"}} {{this.unit}}</h1>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1">
-                                <mat-icon>{{(this.actualValue! < this.goalValue!) ? "call_made" : (this.actualValue! > this.goalValue!) ? "call_received" : "equal"}}</mat-icon>
+                                <!-- <mat-icon>{{(this.actualValue! < this.goal_number!) ? "call_made" : (this.actualValue! > this.goal_number!) ? "call_received" : "equal"}}</mat-icon> -->
+                                <mat-icon>{{this.icon}}</mat-icon>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="1" rowspan="1">
-                                <p>{{this.goalValue??"--"}} {{this.unit}}</p>
+                                <p>{{this.goal_number??"--"}} {{this.unit}}</p>
                             </mat-grid-tile>
                             <mat-grid-tile colspan="3" rowspan="1">
                                 <p>en cours de chauffe</p>
