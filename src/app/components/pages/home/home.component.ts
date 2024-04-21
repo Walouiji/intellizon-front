@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ import { Observable, concatMap, of, tap } from 'rxjs';
     styleUrl: './home.component.scss',
     imports: [CardComponent, ChartComponent, MatFormFieldModule, MatSelectModule, FormsModule, MatButtonToggleModule]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
     public temperatureData!: { time: Date; value: number; }[];
     public humidityData!: { time: Date; value: number; }[];
@@ -26,6 +26,10 @@ export class HomeComponent implements OnInit {
     public latestTemperatureData!: { value: number; unit: string; };
     public latestHumidityData!: { value: number; unit: string; };
     public latestLightData!: { value: number; unit: string; };
+
+    public configTemperatureData: { min: number, max: number } = { min: 0, max: 0 };
+    public configHumidityData: { min: number, max: number } = { min: 0, max: 0 };
+    public configLightData: { min: number, max: number } = { min: 0, max: 0 };
 
     dateSelection!: number;
 
@@ -42,15 +46,23 @@ export class HomeComponent implements OnInit {
                 tap(devices => {
                     this.deviceList = devices;
                     this.selectedDevice = this.deviceList[0];
+                    // console.log(this.selectedDevice.deviceEui);
+                    this.updateConfigFields(this.selectedDevice.deviceEui);
+                    console.log(this.configTemperatureData, this.configHumidityData, this.configLightData);
                 }),
                 concatMap(() => this.updateCardInfos()),
-                concatMap(() => this.updateChart())
+                concatMap(() => this.updateChart()),
+                concatMap(() => this.updateConfigFields(this.selectedDevice.deviceEui)),
             )
             .subscribe();
 
         this.latestTemperatureData = { value: 0, unit: '°C' };
         this.latestHumidityData = { value: 0, unit: '%' };
         this.latestLightData = { value: 0, unit: 'lx' };
+
+    }
+    ngAfterViewInit(): void {
+        // this.updateConfigFields();
     }
 
     /**
@@ -82,13 +94,27 @@ export class HomeComponent implements OnInit {
                 })
             );
     }
+    updateConfigFields(device: any){
+        return this.sensorService
+            .getConfig(device)
+            .pipe(
+                tap(data => {
+                    // console.log(this.selectedDevice.deviceEui, data.temperature, data.humidity, data.light)
+                    // this.configTemperatureData = data.temperature;
+                    // this.configHumidityData = data.humidity;
+                    // this.configLightData = data.light;
+                })
+            );
+    }
 
     onSelect(event: any) {
         this.selectedDevice = event;
         of(null).pipe(
             concatMap(() => this.updateCardInfos()),
-            concatMap(() => this.updateChart())
+            concatMap(() => this.updateChart()),
+            concatMap(() => this.updateConfigFields(this.selectedDevice.deviceEui))
         ).subscribe();
+        this.updateConfigFields(this.selectedDevice.deviceEui);
     }
 
     onDayCountChange(event: any) {
