@@ -139,8 +139,6 @@ export class ConfigComponent implements OnInit {
             config.light = this.configLight.light;
         }
 
-        console.log(config);
-
         this.sensorService.putConfig(this.selectedDevice.deviceEui, config).subscribe({
             next: () => {
             },

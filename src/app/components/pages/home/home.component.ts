@@ -155,8 +155,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         this.h_state = this.configHumidity == "--" ? "" : "Humidité régulée";
                     }
 
-                    console.log(this.configLightData);
-                    
                     const isToggle = this.configLightData || undefined;
 
                     if(isToggle) {
