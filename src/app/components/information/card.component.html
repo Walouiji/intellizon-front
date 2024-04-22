@@ -23,8 +23,15 @@
                                     <p>{{state}}</p>
                                 </mat-grid-tile>
                             } @else {
-                                <mat-grid-tile colspan="3" rowspan="3">
-                                    <h1>lumière allumée</h1>
+                                <mat-grid-tile colspan="3" rowspan="2">
+                                    @if (this.state === "ON" || this.state === "OFF") {
+                                        <img [src]="'../../../assets/light_icons/icons8-light-'+this.state+'.png'" />
+                                    } @else {
+                                        <h1>--</h1>
+                                    }
+                                </mat-grid-tile>
+                                <mat-grid-tile colspan="3" rowspan="1">
+                                    <h3>{{state}}</h3>
                                 </mat-grid-tile>
                             }
                             <mat-grid-tile colspan="3" rowspan="1">

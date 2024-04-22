@@ -20,6 +20,6 @@
 	<br />
 	<card [state]="h_state" [actualValue]="latestHumidityData.value" [goalValue]="configHumidity" [icon]="h_icon" [unit]="latestHumidityData.unit" [type]="'humidity'" [color]="'17, 196, 209'" [data]="humidityData" />
 	<br />
-	<card [actualValue]="latestLightData.value" [type]="'light'" [color]="'2, 222, 127'" [data]="lightData" />
+	<card [actualValue]="latestLightData.value" [state]="l_state" [type]="'light'" [color]="'2, 222, 127'" [data]="lightData" />
 	<br />
 </body>

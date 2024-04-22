@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     public configTemperatureData: { min: number, max: number } = { min: 0, max: 0 };
     public configHumidityData: { min: number, max: number } = { min: 0, max: 0 };
-    public configLightData: { min: number, max: number } = { min: 0, max: 0 };
+    public configLightData: { toggle: number, controlledLights: string[] } = { toggle: 0, controlledLights: [] };
 
     public configTemperature: any | undefined;
     public configHumidity: any | undefined;
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     public t_state!: string;
     public h_state!: string;
-    public l_state!: boolean;
+    public l_state!: string;
 
     deviceList: any = []
     selectedDevice: any;
@@ -155,10 +155,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         this.h_state = this.configHumidity == "--" ? "" : "Humidité régulée";
                     }
 
-                    if(this.latestLightData.value < 100) {
-                        this.l_state = false
+                    console.log(this.configLightData);
+                    
+                    const isToggle = this.configLightData || undefined;
+
+                    if(isToggle) {
+                        if(this.configLightData.toggle < this.latestLightData.value) {
+                            this.l_state = "OFF"
+                        } else {
+                            this.l_state = "ON"
+                        }
                     } else {
-                        this.l_state = true
+                        this.l_state = "Pas de configuration"
                     }
                 })
             );
